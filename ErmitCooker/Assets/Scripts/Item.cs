@@ -6,6 +6,5 @@ using UnityEngine;
 public class Item : ScriptableObject {
     public string itemName;
     public Sprite sprite;
-    public GameObject item;
     public int amount = 0;
 }

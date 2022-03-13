@@ -9,8 +9,13 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] AnimationClip _fadeInAnimationClip;
     [SerializeField] private GameObject _timerPanel;
     [SerializeField] private GameObject _reputationPanel;
+    [SerializeField] private GameObject _inventoryPanel;
     [SerializeField] private TMPro.TextMeshProUGUI Timer;
     [SerializeField] private Image reputBar; //Barre de vie
+    [SerializeField] public Inventory inventory;
+    [SerializeField] private GameObject _itemsList;
+    [SerializeField] public NPCSpawner npcSpawner;
+    [SerializeField] private int reputation = 10;
     public Events.EventFadeComplete OnUIFadeComplete;
 
     private void Start()
@@ -20,12 +25,49 @@ public class PlayerUI : MonoBehaviour
 
     private void Update()
     {
+        UpdateReput();
         UpdateTimerText(); //On update le timer de l'UI
+        if (GameManager.Instance.CurrentGameState == GameManager.GameState.RUNNING)
+        {
+            for (int i = 0; i < inventory.inventory.Count; ++i)
+            {
+
+                /*GameObject newItem = new GameObject(inventory.inventory[i].itemName);
+                newItem.AddComponent<TMPro.TextMeshProUGUI>();
+                newItem.transform.SetParent(_itemsList.transform);
+                newItem.GetComponent<TMPro.TextMeshProUGUI>().SetText(inventory.inventory[i].itemName);*/
+            }
+        }
     }
 
-    public void UpdateReputBar(float fill) //On update la barre de vie
+    private void UpdateReput()
     {
-        reputBar.fillAmount += fill;
+        reputBar.fillAmount = 1 / 10.0f * reputation;
+        if (reputation >= 6)
+        {
+            reputBar.color = new Color(0, 125, 0);
+        } 
+        else if( reputation >= 4)
+        {
+            reputBar.color = new Color(125, 125, 0);
+        }
+        else
+        {
+            reputBar.color = new Color(125, 0, 0);
+        }
+    }
+
+    public void UpdateReputBar(int fill) //On update la barre de vie
+    {
+        reputation += fill;
+        if(reputation > 10)
+        {
+            reputation = 10;
+        }
+        if(reputation <= 0)
+        {
+            GameManager.Instance.TriggerWin();
+        }
     }
 
 
@@ -37,7 +79,8 @@ public class PlayerUI : MonoBehaviour
         }
         if (previousstate != GameManager.GameState.RUNNING && previousstate != GameManager.GameState.PAUSED && currentstate == GameManager.GameState.RUNNING) //Quand on repasse en RUNNING depuis un menu
         {
-            reputBar.fillAmount = 1.0f; //On réinitialise les barres de vie et d'armure
+            reputation = 1; //On réinitialise les barres de vie et d'armure
+            inventory.Clear();
         }
     }
 

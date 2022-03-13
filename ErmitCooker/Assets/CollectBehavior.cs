@@ -5,6 +5,7 @@ using UnityEngine;
 public class CollectBehavior : MonoBehaviour
 {
     public GameObject pressCIcon;
+    public Item loot;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Player")
@@ -25,7 +26,7 @@ public class CollectBehavior : MonoBehaviour
     {
         if( collision.tag == "Player" && Input.GetKeyDown(KeyCode.C) && GameManager.Instance.CurrentGameState == GameManager.GameState.RUNNING)
         {
-            collision.GetComponent<PlayerDeplacements>().Increment();
+            UIManager.Instance.UIPlayer.inventory.AddItem(loot);
             Destroy(gameObject);
         }
     }

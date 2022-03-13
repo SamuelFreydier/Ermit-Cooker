@@ -14,6 +14,7 @@ public class NPCSpawner : MonoBehaviour
 
     private void Start()
     {
+        UIManager.Instance.UIPlayer.npcSpawner = gameObject.GetComponent<NPCSpawner>();
         float distance = endPoint.position.x - startPoint.position.x;
         float widthNPC = NPC.GetComponent<Collider2D>().bounds.extents.x;
         for( float i = startPoint.position.x + 0.5f; i < startPoint.position.x + distance; i += widthNPC + 3f)
@@ -38,5 +39,10 @@ public class NPCSpawner : MonoBehaviour
                 spawnPoints.RemoveAt(randomSeat);
             }
         }
+    }
+
+    public void addPosition( Vector3 position )
+    {
+        spawnPoints.Add(position);
     }
 }

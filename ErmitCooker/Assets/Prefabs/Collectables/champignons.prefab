@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pressCIcon: {fileID: 7432539755960020896}
+  loot: {fileID: 11400000, guid: 6a6b084cce8f44c479b985de82fd2de8, type: 2}
 --- !u!1001 &4330447332930502879
 PrefabInstance:
   m_ObjectHideFlags: 0

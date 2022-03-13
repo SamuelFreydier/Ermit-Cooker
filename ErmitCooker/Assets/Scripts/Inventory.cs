@@ -6,11 +6,14 @@ public class Inventory : MonoBehaviour
 {
     public List<Item> inventory;
 
+    private void Start()
+    {
+        inventory = new List<Item>();
+    }
     public void AddItem(Item itemToAdd) {
-
         Item result = inventory.Find(item => item.name == itemToAdd.name);
 
-        if(result != null) {
+        if(result == null) {
             itemToAdd.amount = 1;
             inventory.Add(itemToAdd);
         }
@@ -31,5 +34,10 @@ public class Inventory : MonoBehaviour
             result.amount--;
         }
         
+    }
+
+    public void Clear()
+    {
+        inventory.Clear();
     }
 }

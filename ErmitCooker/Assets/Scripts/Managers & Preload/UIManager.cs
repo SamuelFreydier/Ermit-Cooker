@@ -121,7 +121,6 @@ public class UIManager : Singleton<UIManager> //Manager pour l'UI en général
         _uiMenu.OnUIFadeComplete.AddListener(HandleUIEventFadeComplete);
     }
 
-
     public void SetDummyCameraActive(bool active)
     {
         _dummyCamera.gameObject.SetActive(active);
