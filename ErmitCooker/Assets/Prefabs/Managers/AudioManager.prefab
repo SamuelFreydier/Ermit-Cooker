@@ -44,4 +44,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d52add2e801344e8714c6986c55cbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
+  sounds:
+  - name: Running1
+    clip: {fileID: 8300000, guid: 8248a7579eb2e434891c89552840391a, type: 3}
+    group: {fileID: 24300002, guid: 6e2a64651dddd5e4d8f129e469f3c969, type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Running2
+    clip: {fileID: 8300000, guid: 3f71eb989144e16409a36745952e8355, type: 3}
+    group: {fileID: 24300002, guid: 6e2a64651dddd5e4d8f129e469f3c969, type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: WinMusic
+    clip: {fileID: 8300000, guid: 4cc518c25f603864f88c56c98b5327ac, type: 3}
+    group: {fileID: 24300002, guid: 6e2a64651dddd5e4d8f129e469f3c969, type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: MenuMusic
+    clip: {fileID: 8300000, guid: e2ba1e4f03aede74d86afec78d56a5a2, type: 3}
+    group: {fileID: 24300002, guid: 6e2a64651dddd5e4d8f129e469f3c969, type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Running3
+    clip: {fileID: 8300000, guid: 110fecc71ce4d3f4daee5e45aadd8c8f, type: 3}
+    group: {fileID: 24300002, guid: 6e2a64651dddd5e4d8f129e469f3c969, type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}

@@ -25,6 +25,8 @@ public class MainMenu : MonoBehaviour
         GameManager.Instance.OnGameStateChanged.AddListener(HandleGameStateChanged);
         levelButton.onClick.AddListener(HandleLoadLevel1Clicked);
         quitButton.onClick.AddListener(HandleQuitClicked);
+
+        FadeIn();
     }
 
     //Selon le bouton, on envoie un event avec le nom du Level chargé (1 ou 2)
@@ -68,7 +70,7 @@ public class MainMenu : MonoBehaviour
     public void OnFadeInComplete() //Fin d'entrée dans le menu
     {
         OnMainMenuFadeComplete.Invoke(false); //On envoie un event pour indiquer la fin de l'anim
-        //musicfade = StartCoroutine(AudioManager.Instance.Play("MenuMusic", 1f, 1f)); //On joue la musique de menu
+        musicfade = StartCoroutine(AudioManager.Instance.Play("MenuMusic", 1f, 1f)); //On joue la musique de menu
     }
 
     public void FadeIn() //Début d'entrée
@@ -82,8 +84,8 @@ public class MainMenu : MonoBehaviour
 
     public void FadeOut() //Début de sortie
     {
-        //StopCoroutine(musicfade);
-        //StartCoroutine(AudioManager.Instance.StopFadeOut("MenuMusic", .5f)); //On stoppe la musique du menu
+        StopCoroutine(musicfade);
+        StartCoroutine(AudioManager.Instance.StopFadeOut("MenuMusic", .5f)); //On stoppe la musique du menu
         _mainMenuAnimator.Stop(); //Activation de l'animation
         _mainMenuAnimator.clip = _fadeOutAnimationClip;
         _mainMenuAnimator.Play();

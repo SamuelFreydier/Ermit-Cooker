@@ -6,11 +6,12 @@ public class GameManager : Singleton<GameManager>
 {
     public GameObject[] SystemPrefabs; //Liste d'objets système (d'autres managers) à instancier dès le début
     public Events.EventGameState OnGameStateChanged; //Event qui se lance quand le State change
+    public Events.EventReputState OnReputStateChanged;
     private List<AsyncOperation> _loadOperations; //Liste d'opérations de chargement
     private List<GameObject> _instanciedSystemPrefabs; //Liste des systemPrefabs qui ont été instanciés
     private string _currentLevelName = string.Empty; //Nom du niveau actuel
     private GameState _currentGameState = GameState.PREGAME; //State actuel
-
+    private ReputState _currentReputState = ReputState.SAFE;
 
     public enum GameState //Ensemble des State
     {
@@ -20,6 +21,17 @@ public class GameManager : Singleton<GameManager>
         WIN, //Le joueur a gagné
     }
 
+    public enum ReputState
+    {
+        SAFE,
+        AVERAGE,
+        TOUGH
+    }
+
+    public ReputState CurrentReputState
+    {
+        get { return _currentReputState; }
+    }
     public GameState CurrentGameState //Renvoie le State actuel
     {
         get { return _currentGameState; }
@@ -58,6 +70,42 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    public void UpdateReput(ReputState state) //Mise à jour du State actuel
+    {
+        ReputState previousReputState = _currentReputState;
+        switch (state)
+        {
+            case ReputState.SAFE:
+                {
+                    _currentReputState = ReputState.SAFE;
+                    Time.timeScale = 1f;
+                    Debug.Log("SAFE");
+                }
+                break;
+            case ReputState.AVERAGE:
+                {
+                    _currentReputState = ReputState.AVERAGE;
+                    Time.timeScale = 1f;
+                    Debug.Log("Average");
+                }
+                break;
+            case ReputState.TOUGH:
+                {
+                    _currentReputState = ReputState.TOUGH;
+                    Time.timeScale = 1f;
+                    Debug.Log("Tough");
+                }
+                break;
+            default:
+                {
+                    _currentReputState = ReputState.SAFE;
+                    Time.timeScale = 1f;
+                    Debug.Log("Safe");
+                }
+                break;
+        }
+        OnReputStateChanged.Invoke(_currentReputState, previousReputState);
+    }
 
     private void UpdateState(GameState state) //Mise à jour du State actuel
     {
@@ -114,6 +162,7 @@ public class GameManager : Singleton<GameManager>
         ao.completed += OnLoadOperationComplete;
         _loadOperations.Add(ao);
         _currentLevelName = levelName;
+        _currentReputState = ReputState.SAFE;
     }
 
     public void UnloadLevel(string levelName) //Déchargement d'un niveau

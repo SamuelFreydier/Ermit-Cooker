@@ -45,14 +45,19 @@ public class PlayerUI : MonoBehaviour
         reputBar.fillAmount = 1 / 10.0f * reputation;
         if (reputation >= 6)
         {
+            GameManager.Instance.UpdateReput(GameManager.ReputState.SAFE);
             reputBar.color = new Color(0, 125, 0);
         } 
         else if( reputation >= 4)
         {
+            GameManager.Instance.UpdateReput(GameManager.ReputState.AVERAGE);
+
             reputBar.color = new Color(125, 125, 0);
         }
         else
         {
+            GameManager.Instance.UpdateReput(GameManager.ReputState.TOUGH);
+
             reputBar.color = new Color(125, 0, 0);
         }
     }
@@ -79,7 +84,7 @@ public class PlayerUI : MonoBehaviour
         }
         if (previousstate != GameManager.GameState.RUNNING && previousstate != GameManager.GameState.PAUSED && currentstate == GameManager.GameState.RUNNING) //Quand on repasse en RUNNING depuis un menu
         {
-            reputation = 1; //On réinitialise les barres de vie et d'armure
+            reputation = 10; //On réinitialise les barres de vie et d'armure
             inventory.Clear();
         }
     }
@@ -103,6 +108,7 @@ public class PlayerUI : MonoBehaviour
     public void OnFadeInComplete() //Fin d'entrée
     {
         OnUIFadeComplete.Invoke(false); //On envoie l'event
+        AudioManager.Instance.Play("Running1", 1.0f, 1);
     }
 
     public void FadeIn() //Début d'entrée

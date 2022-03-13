@@ -67,7 +67,7 @@ public class WinMenu : MonoBehaviour
     public void OnFadeInComplete() //Fin d'entrée
     {
         OnWinMenuFadeComplete.Invoke(false, choice); //On envoie l'event
-        //musicfade = StartCoroutine(AudioManager.Instance.Play("WinMusic", .8f, 1f)); //On lance la musique de victoire
+        musicfade = StartCoroutine(AudioManager.Instance.Play("WinMusic", .8f, 1f)); //On lance la musique de victoire
     }
 
     public void FadeIn() //Début d'entrée
@@ -90,8 +90,8 @@ public class WinMenu : MonoBehaviour
 
     public void FadeOut() //Début de sortie
     {
-        //StopCoroutine(musicfade);
-        //StartCoroutine(AudioManager.Instance.StopFadeOut("WinMusic", .5f)); //On stoppe la musique de victoire
+        StopCoroutine(musicfade);
+        AudioManager.Instance.InstantStop("WinMusic");
         _winMenuAnimator.Stop(); //On active l'anim
         _winMenuAnimator.clip = _fadeOutAnimationClip;
         _winMenuAnimator.Play();

@@ -26,8 +26,18 @@ public class CollectBehavior : MonoBehaviour
     {
         if( collision.tag == "Player" && Input.GetKeyDown(KeyCode.C) && GameManager.Instance.CurrentGameState == GameManager.GameState.RUNNING)
         {
+            if( gameObject.transform.parent != null )
+            {
+                bananaSpawner spawn = gameObject.transform.parent.gameObject.GetComponent<bananaSpawner>();
+                if (spawn != null)
+                {
+                    spawn.DecreaseNumber();
+                }
+            }
+            
             UIManager.Instance.UIPlayer.inventory.AddItem(loot);
             Destroy(gameObject);
         }
     }
+
 }

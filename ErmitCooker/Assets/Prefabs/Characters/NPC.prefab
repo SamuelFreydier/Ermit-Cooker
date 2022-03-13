@@ -225,8 +225,9 @@ MonoBehaviour:
   itemsToPick:
   - {fileID: 11400000, guid: 6a6b084cce8f44c479b985de82fd2de8, type: 2}
   - {fileID: 11400000, guid: 761a977cced2d0b4ab5141a9c289ce83, type: 2}
+  - {fileID: 11400000, guid: bb02b7791e6f7884f9576a0738e60a7b, type: 2}
   itemShowed: {fileID: 6434959830418950375}
-  patienceTime: 10
+  patienceTime: 20
 --- !u!61 &5543753275576829449
 BoxCollider2D:
   m_ObjectHideFlags: 0

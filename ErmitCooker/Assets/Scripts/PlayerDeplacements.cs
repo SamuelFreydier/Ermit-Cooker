@@ -28,16 +28,6 @@ public class PlayerDeplacements : MonoBehaviour
 		UpdateAnimations(horizontalMovement, verticalMovement);
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.N))
-        {
-			finisher.Finish();
-
-			GameManager.Instance.TriggerWin();
-        }
-    }
-
     void UpdateAnimations(float horizontalMovement,float verticalMovement){
 		int orient = 0;
 		if (horizontalMovement<0){

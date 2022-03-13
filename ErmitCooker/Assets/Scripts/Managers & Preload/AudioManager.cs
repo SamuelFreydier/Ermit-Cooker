@@ -11,6 +11,7 @@ public class AudioManager : Singleton<AudioManager> //Manager gérant les sons, m
         foreach (Sounds s in sounds) //Lorsque le jeu se lance, on crée les audiosource avec les caractéristiques propres à chaque son
         {
             GameManager.Instance.OnGameStateChanged.AddListener(HandleGameStateChanged);
+            GameManager.Instance.OnReputStateChanged.AddListener(HandleReputStateChanged);
             s.source = gameObject.AddComponent<AudioSource>();
             s.source.clip = s.clip;
 
@@ -25,11 +26,27 @@ public class AudioManager : Singleton<AudioManager> //Manager gérant les sons, m
     {
         if (currentstate == GameManager.GameState.RUNNING && previousstate != GameManager.GameState.RUNNING && previousstate != GameManager.GameState.PAUSED )
         {
-            PlayMusicHandler(GameManager.Instance.LevelName); //On lance la musique du level courant
+            PlayMusicHandler("SAFE"); //On lance la musique du level courant
         }
         if (currentstate != GameManager.GameState.RUNNING && currentstate != GameManager.GameState.PAUSED && (previousstate == GameManager.GameState.RUNNING || previousstate == GameManager.GameState.PAUSED))
         {
             StopMusicHandler(GameManager.Instance.LevelName); //On stoppe la musique du level courant
+        }
+    }
+
+    private void HandleReputStateChanged( GameManager.ReputState currentReput, GameManager.ReputState previousReput )
+    {
+        if( currentReput == GameManager.ReputState.SAFE && previousReput != GameManager.ReputState.SAFE )
+        {
+            PlayMusicHandler("SAFE");
+        }
+        else if(currentReput == GameManager.ReputState.AVERAGE && previousReput != GameManager.ReputState.AVERAGE)
+        {
+            PlayMusicHandler("AVERAGE");
+        }
+        else if( currentReput == GameManager.ReputState.TOUGH && previousReput != GameManager.ReputState.TOUGH )
+        {
+            PlayMusicHandler("TOUGH");
         }
     }
     private void StopMusicHandler(string levelname) //Stoppe la musique du level courant
@@ -42,7 +59,21 @@ public class AudioManager : Singleton<AudioManager> //Manager gérant les sons, m
                     {
                         StopCoroutine(mainMusic);
                     }
-                    mainMusic = StartCoroutine(StopFadeOut("Level1Music", 1f));
+                    if( GameManager.Instance.CurrentReputState == GameManager.ReputState.SAFE )
+                    {
+                        mainMusic = StartCoroutine(StopFadeOut("Running1", 1f));
+
+                    }
+                    if (GameManager.Instance.CurrentReputState == GameManager.ReputState.AVERAGE)
+                    {
+                        mainMusic = StartCoroutine(StopFadeOut("Running2", 1f));
+
+                    }
+                    if (GameManager.Instance.CurrentReputState == GameManager.ReputState.TOUGH)
+                    {
+                        mainMusic = StartCoroutine(StopFadeOut("Running3", 1f));
+
+                    }
                 }
                 break;
             case "Level2":
@@ -76,28 +107,30 @@ public class AudioManager : Singleton<AudioManager> //Manager gérant les sons, m
         }
         s.source.Stop();
     }
-    private void PlayMusicHandler(string levelname) //Lance la musique du level courant
+    private void PlayMusicHandler(string state) //Lance la musique du level courant
     {
-        switch (levelname)
+        if (mainMusic != null)
         {
-            case "Level1":
-                {
-                    if (mainMusic != null)
-                    {
-                        StopCoroutine(mainMusic);
-                    }
-                    mainMusic = StartCoroutine(Play("Level1Music", 0.489f, 2f));
-                }
-                break;
-            case "Level2":
-                {
-                    if (mainMusic != null)
-                    {
-                        StopCoroutine(mainMusic);
-                    }
-                    mainMusic = StartCoroutine(Play("Level2Music", 1f, 2f));
-                }
-                break;
+            StopCoroutine(mainMusic);
+        }
+        if( state == "SAFE" )
+        {
+            InstantStop("Running2");
+            InstantStop("Running3");
+            mainMusic = StartCoroutine(Play("Running1", 0.489f, 2f));
+        }
+        else if( state == "AVERAGE" )
+        {
+            InstantStop("Running1");
+            InstantStop("Running3");
+            mainMusic = StartCoroutine(Play("Running2", 0.489f, 2f));
+        }
+        else
+        {
+            InstantStop("Running2");
+            InstantStop("Running1");
+            mainMusic = StartCoroutine(Play("Running3", 0.489f, 2f));
+
         }
     }
 
