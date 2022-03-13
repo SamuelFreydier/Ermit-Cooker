@@ -5,20 +5,24 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    public TMPro.TextMeshProUGUI timerText ;
-    public float timeLeft = 0.0f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private float timeSpent = 0.0f;
+    private bool finished = false;
 
     // Update is called once per frame
     void Update()
     {
-        
-        timeLeft += Time.deltaTime;
+        if(finished)
+        {
+            return;
+        }
+        timeSpent += Time.deltaTime;
 
-        timerText.SetText(timeLeft.ToString("0"));
+        ScoreManager.Instance.UpdateTime(timeSpent);
+    }
+
+    public void Finish()
+    {
+        finished = true;
+        ScoreManager.Instance.UpdateBestTime(timeSpent);
     }
 }

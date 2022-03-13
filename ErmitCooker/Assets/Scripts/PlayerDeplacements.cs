@@ -9,6 +9,15 @@ public class PlayerDeplacements : MonoBehaviour
 	public Animator animator;
 	public SpriteRenderer sr;
 
+	private int testCollect = 0;
+	public Timer finisher;
+
+	public void Increment()
+    {
+		++testCollect;
+		Debug.Log(testCollect);
+    }
+
     void FixedUpdate()
     {
 		float horizontalMovement = moveSpeed * Input.GetAxis("Horizontal") * Time.deltaTime;
@@ -19,7 +28,17 @@ public class PlayerDeplacements : MonoBehaviour
 		UpdateAnimations(horizontalMovement, verticalMovement);
     }
 
-	void UpdateAnimations(float horizontalMovement,float verticalMovement){
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.N))
+        {
+			finisher.Finish();
+
+			GameManager.Instance.TriggerWin();
+        }
+    }
+
+    void UpdateAnimations(float horizontalMovement,float verticalMovement){
 		int orient = 0;
 		if (horizontalMovement<0){
 			orient = 1; //LATERAL

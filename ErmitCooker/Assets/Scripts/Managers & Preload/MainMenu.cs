@@ -17,7 +17,7 @@ public class MainMenu : MonoBehaviour
     private void Update()
     {
         //On met à jour les meilleurs temps dans le menu
-        timelvlText.text = "Meilleur temps : " + ScoreManager.Instance.BestTimeLvl1.ToString("f2") + " s";
+        timelvlText.text = "Meilleur temps : " + ScoreManager.Instance.BestTime.ToString("f2") + " s";
     }
     private void Start()
     {

@@ -43,15 +43,11 @@ public class PlayerUI : MonoBehaviour
 
     private void UpdateTimerText() //Update du timer
     {
-        switch (GameManager.Instance.LevelName)
+        if (GameManager.Instance.CurrentGameState == GameManager.GameState.RUNNING)
         {
-            case "Level1":
-                {
-                    Timer.text = ((int)ScoreManager.Instance.TimeLvl1 / 60).ToString()
-                        + ":"
-                        + (ScoreManager.Instance.TimeLvl1 % 60).ToString("f0");
-                }
-                break;
+            Timer.text = ((int)ScoreManager.Instance.TimeLvl1 / 60).ToString()
+                + ":"
+                + (ScoreManager.Instance.TimeLvl1 % 60).ToString("f0");
         }
     }
 

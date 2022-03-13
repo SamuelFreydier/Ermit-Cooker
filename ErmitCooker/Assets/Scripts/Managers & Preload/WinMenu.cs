@@ -23,6 +23,7 @@ public class WinMenu : MonoBehaviour
     private void Update()
     {
         GameManager.Instance.OnGameStateChanged.AddListener(HandleGameStateChanged);
+        UpdateTimerText();
     }
     private void HandleNextLevelClicked() //On charge le prochain niveau (forcément niveau 2)
     {
@@ -51,17 +52,10 @@ public class WinMenu : MonoBehaviour
 
     private void UpdateTimerText() //On update le timer affiché en fonction du niveau courant
     {
-        switch (GameManager.Instance.LevelName)
-        {
-            case "Level1":
-                {
-                    Timer.text = "Temps : "
-                        + ((int)ScoreManager.Instance.TimeLvl1 / 60).ToString()
-                        + ":"
-                        + (ScoreManager.Instance.TimeLvl1 % 60).ToString("f2");
-                }
-                break;
-        }
+        Timer.text = "Temps : "
+            + ((int)ScoreManager.Instance.TimeLvl1 / 60).ToString()
+            + ":"
+            + (ScoreManager.Instance.TimeLvl1 % 60).ToString("f2");
     }
 
     public void OnFadeOutComplete() //Fin de sortie

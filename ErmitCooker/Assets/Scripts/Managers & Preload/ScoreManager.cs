@@ -3,7 +3,7 @@ using UnityEngine;
 public class ScoreManager : Singleton<ScoreManager>
 {
     private float timelvl1; //Temps du niveau 1
-    private float besttimelvl1; //Meilleur temps du niveau 1
+    private float besttimelvl1 = 0; //Meilleur temps du niveau 1
     private float timelvl2;
     private float besttimelvl2;
     private float countdown;
@@ -30,21 +30,9 @@ public class ScoreManager : Singleton<ScoreManager>
         }
     }*/
 
-    public void UpdateTime(string levelname, float time) //On update le timer en fonction du niveau courant
+    public void UpdateTime(float time) //On update le timer en fonction du niveau courant
     {
-        switch (levelname)
-        {
-            case "Level1":
-                {
-                    timelvl1 = time;
-                }
-                break;
-            case "Level2":
-                {
-                    timelvl2 = time;
-                }
-                break;
-        }
+        timelvl1 = time;
     }
 
     public void UpdateCountdown(float time) //On update le countdown
@@ -57,51 +45,25 @@ public class ScoreManager : Singleton<ScoreManager>
         get { return countdown; }
     }
 
-    public void UpdateBestTime(string levelname, float time) //Se déclenche à la fin d'un niveau quand le joueur a gagné : on compare le temps actuel et le meilleur temps et on change ou non
+    public void UpdateBestTime(float time) //Se déclenche à la fin d'un niveau quand le joueur a gagné : on compare le temps actuel et le meilleur temps et on change ou non
     {
-        switch (levelname)
+
+        if (time > besttimelvl1)
         {
-            case "Level1":
-                {
-                    if (time < besttimelvl1 || besttimelvl1 == 0)
-                    {
-                        besttimelvl1 = time;
-                    }
-                    if (startRun)
-                    {
-                        runtimer = time;
-                    }
-                }
-                break;
-            case "Level2":
-                {
-                    if (time < besttimelvl2 || besttimelvl2 == 0)
-                    {
-                        besttimelvl2 = time;
-                    }
-                    if (startRun)
-                    {
-                        runtimer += time;
-                        if (runtimer < bestrun || bestrun == 0)
-                        {
-                            bestrun = runtimer;
-                        }
-                    }
-
-                }
-                break;
+            besttimelvl1 = time;
         }
-        PlayerPrefs.SetFloat("BestTime1", besttimelvl1);
-        PlayerPrefs.SetFloat("BestTime2", besttimelvl2);
-        PlayerPrefs.SetFloat("BestTimeRun", bestrun);
-
+        if (startRun)
+        {
+            runtimer = time;
+        }
+        PlayerPrefs.SetFloat("BestTime", besttimelvl1);
     }
 
     public float BestTimeRun
     {
         get { return bestrun; }
     }
-    public float BestTimeLvl1
+    public float BestTime
     {
         get { return besttimelvl1; }
     }
@@ -122,9 +84,7 @@ public class ScoreManager : Singleton<ScoreManager>
     private void Start()
     {
         GameManager.Instance.OnGameStateChanged.AddListener(HandleGameStateChanged);
-        bestrun = PlayerPrefs.GetFloat("BestTimeRun");
-        besttimelvl1 = PlayerPrefs.GetFloat("BestTime1");
-        besttimelvl2 = PlayerPrefs.GetFloat("BestTime2");
+        besttimelvl1 = PlayerPrefs.GetFloat("BestTime");
     }
 
     private void HandleGameStateChanged(GameManager.GameState currentstate, GameManager.GameState previousstate)
