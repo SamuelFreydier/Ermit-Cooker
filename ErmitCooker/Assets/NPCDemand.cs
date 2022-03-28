@@ -8,6 +8,8 @@ public class NPCDemand : MonoBehaviour
     public SpriteRenderer itemShowed;
     private Item askedItem;
     public float patienceTime;
+    public Animation npcAnimator;
+    public AnimationClip spawnAnimation;
 
     private void Start()
     {
@@ -23,6 +25,11 @@ public class NPCDemand : MonoBehaviour
         {
             rageQuit();
         }
+    }
+
+    public void spawnSound()
+    {
+        GetComponent<AudioSource>().Play();
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -45,7 +52,7 @@ public class NPCDemand : MonoBehaviour
 
     private void rageQuit()
     {
-        UIManager.Instance.UIPlayer.UpdateReputBar(-1);
+        UIManager.Instance.UIPlayer.UpdateReputBar(-2);
         DestroyNPC();
     }
 

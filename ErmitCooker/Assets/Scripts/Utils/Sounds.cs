@@ -17,7 +17,6 @@ public class Sounds //Représente un son (utile pour mettre des sons dans le pref
 
     public bool loop;
 
-
     [HideInInspector]
     public AudioSource source;
 }
